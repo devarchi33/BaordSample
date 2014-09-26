@@ -13,23 +13,21 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import skyfly33.board.config.Config;
+
 public class JdbcUtil {
 	static Logger logger = LoggerFactory.getLogger(JdbcUtil.class);
 	private static JdbcUtil util;
 
 	private DataSource ds;
 	private Connection conn;
-	private Statement stmt;
-	private ResultSet rs;
-
-	final String DATASOURCE = "java:comp/env/jdbc/OracleDB";
+	
+	final String DATASOURCE = Config.getInstance().getProperties("DATASOURCE");
 //	final String DATASOURCE = "orcl";
 
 	private JdbcUtil() {
 		this.ds = null;
-		this.conn = null;
-		this.stmt = null;
-		this.rs = null;
+		this.conn = null;	
 	}
 
 	public static JdbcUtil getInstance() {
