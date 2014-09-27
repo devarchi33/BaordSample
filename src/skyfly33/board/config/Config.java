@@ -36,13 +36,14 @@ public class Config {
 
 	private Config() {
 		ClassLoader cl;
-		cl = Thread.currentThread().getContextClassLoader();
+		cl = Thread.currentThread().getContextClassLoader();//was에서 돌아가는 web application일 때.
 
 		if (cl == null) {
-			cl = ClassLoader.getSystemClassLoader();
+			cl = ClassLoader.getSystemClassLoader();//독립형 java application일 때.
 		}
 
 		propPath = cl.getResource("board.properties").getPath();
+//		propPath = "/home/jeus/jeus6/webhome/app_home/BoardSample/WEB-INF/classes";
 
 		properties = new Properties();
 
@@ -65,6 +66,7 @@ public class Config {
 					if (in != null)
 						in.close();
 				} catch (Exception e) {
+					logger.debug("Exception : " +e.getMessage());
 				}
 			}
 		}
