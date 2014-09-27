@@ -49,6 +49,7 @@ public class Config {
 
 		// file read
 		File src = new File(propPath);
+//		File src = new File("classpath:/board.properties");
 		if (!src.exists()) {
 			logger.debug("####### can't find board config property src file...");
 			logger.debug("####### now propPath : " + propPath);

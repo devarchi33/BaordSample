@@ -21,13 +21,14 @@ public class JdbcUtil {
 
 	private DataSource ds;
 	private Connection conn;
-	
+
 	final String DATASOURCE = Config.getInstance().getProperties("DATASOURCE");
-//	final String DATASOURCE = "orcl";
+
+	// final String DATASOURCE = "orcl";
 
 	private JdbcUtil() {
 		this.ds = null;
-		this.conn = null;	
+		this.conn = null;
 	}
 
 	public static JdbcUtil getInstance() {
@@ -89,6 +90,24 @@ public class JdbcUtil {
 			} catch (SQLException e) {
 				logger.info("SQLException : " + e.getMessage());
 			}
+		}
+	}
+
+	public static void commit(Connection conn) {
+		try {
+			conn.commit();
+			logger.info("commit success!!");
+		} catch (Exception e) {
+			logger.debug("Exception : " + e.getMessage());
+		}
+	}
+
+	public static void rollback(Connection conn) {
+		try {
+			conn.rollback();
+			logger.info("rollback success!!");
+		} catch (Exception e) {
+			logger.debug("Exception : " + e.getMessage());
 		}
 	}
 }

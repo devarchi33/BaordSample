@@ -9,14 +9,15 @@
 <%@ page import="skyfly33.board.util.JdbcUtil"%>
 
 <%
-	request.setCharacterEncoding("UTF-8");
+	Connection conn = JdbcUtil.getInstance().getConnection();
+	try {
+		request.setCharacterEncoding("UTF-8");
 
-	OracleDao boardDao = new OracleDao();
-	JdbcUtil util = JdbcUtil.getInstance();
+		OracleDao boardDao = new OracleDao();
 
-	String sql = "select * from salgrade";
-	
-	ResultSet rs = boardDao.selectList(JdbcUtil.getInstance().getConnection(), sql);
+		String sql = "select * from salgrade";
+
+		ResultSet rs = boardDao.selectList(conn, sql);
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -53,14 +54,17 @@ th {
 		</tr>
 
 		<%
-	        while(rs.next()){ 
-	
-	            out.print("<tr>");
-	            out.print("<td>" + rs.getString(1) + "</td>");
-	            out.print("<td>" + rs.getString(2) + "</td>");
-	            out.print("<td>" + rs.getString(3) + "</td>");
-	            out.print("</tr>");
-	        }
+			while (rs.next()) {
+
+					out.print("<tr>");
+					out.print("<td>" + rs.getString(1) + "</td>");
+					out.print("<td>" + rs.getString(2) + "</td>");
+					out.print("<td>" + rs.getString(3) + "</td>");
+					out.print("</tr>");
+				}
+			} finally {
+				JdbcUtil.close(conn);
+			}
 		%>
 
 	</table>

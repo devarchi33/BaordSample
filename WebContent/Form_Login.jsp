@@ -3,7 +3,7 @@
 <%@ page session="false" %>
 <html>
 <head>
-	<title>Donghoon's Model1 Board - login</title>
+	<title>Donghoon's Model1 Board - Login</title>
 <script>
 function formCheck() { 
 		var id = document.forms[0].id;       

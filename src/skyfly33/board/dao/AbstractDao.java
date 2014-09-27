@@ -4,22 +4,21 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import skyfly33.board.model.Board;
+import skyfly33.board.beans.Board;
 import skyfly33.board.util.JdbcUtil;
 
 public abstract class AbstractDao {
 
 	static Logger logger = LoggerFactory.getLogger(AbstractDao.class);
 
-	public abstract int insert(Connection conn, Board board, String sql)
-			throws SQLException;
+	public abstract int insert(Connection conn, String sql) throws SQLException;
 
-	public abstract ResultSet selectList(Connection conn, String sql) throws SQLException;
+	public abstract ResultSet selectList(Connection conn, String sql)
+			throws SQLException;
 
 	public Board contentSelect(Connection conn, String sql) {
 		PreparedStatement pstmt = null;
@@ -43,7 +42,7 @@ public abstract class AbstractDao {
 		} finally {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
-			JdbcUtil.close(conn);			
+			JdbcUtil.close(conn);
 		}
 	}
 
@@ -59,17 +58,17 @@ public abstract class AbstractDao {
 
 		return board;
 	}
-	
-	public int delete(Connection conn, String sql){
+
+	public int delete(Connection conn, String sql) {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		try{
+		try {
 			pstmt = conn.prepareStatement(sql);
 			return pstmt.executeUpdate();
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			logger.info("SQLException : " + e.getMessage());
 			return 0;
-		}finally{
+		} finally {
 			JdbcUtil.close(rs);
 			JdbcUtil.close(pstmt);
 		}

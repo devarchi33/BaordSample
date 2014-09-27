@@ -1,21 +1,22 @@
 <%@page import="skyfly33.board.util.JdbcUtil"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="skyfly33.board.model.Board"%>
+<%@ page import="skyfly33.board.beans.Board"%>
 <%@ page import="skyfly33.board.dao.oracle.OracleDao"%>
 <%@ page import="java.sql.ResultSet"%>
 <%@ page import="java.sql.Connection"%>
 
 
 <%
-	request.setCharacterEncoding("UTF-8");
+	Connection conn = JdbcUtil.getInstance().getConnection();
+	try {
+		request.setCharacterEncoding("UTF-8");
 
-	OracleDao boardDao = new OracleDao();
-	JdbcUtil util = JdbcUtil.getInstance();
+		OracleDao boardDao = new OracleDao();
 
-	String sql = "select * from board2";
-	
-	ResultSet rs = boardDao.selectList(JdbcUtil.getInstance().getConnection(), sql);
+		String sql = "select * from board2";
+
+		ResultSet rs = boardDao.selectList(conn, sql);
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -27,9 +28,9 @@
 </head>
 <body>
 	<div id="header">
-		<ul class="topMenu">
-			<li><a href="Form_Login.jsp">로그아웃</a></li>
-		</ul>
+		<form action="logout" method="get">
+			<input type="submit" value="로그아웃" /><br>
+		</form>
 	</div>
 
 	<!-- HTML문서의 주 내용이 들어가는 부분입니다. -->
@@ -62,21 +63,25 @@
 		<%
 			while (rs.next()) {
 
-				out.print("<tr>");
+					out.print("<tr>");
 
-				out.print("<td>" + rs.getInt("idx") + "</td>");
+					out.print("<td>" + rs.getInt("idx") + "</td>");
 
-				out.print("<td> <a href = 'content.jsp?idx=" + rs.getInt("idx")
-						+ "'>" + rs.getString("title") + "</a></td>");
+					out.print("<td> <a href = 'content.jsp?idx="
+							+ rs.getInt("idx") + "'>" + rs.getString("title")
+							+ "</a></td>");
 
-				out.print("<td>" + rs.getString("writer") + "</td>");
+					out.print("<td>" + rs.getString("writer") + "</td>");
 
-				out.print("<td>" + rs.getString("regdate") + "</td>");
+					out.print("<td>" + rs.getString("regdate") + "</td>");
 
-				out.print("<td>" + rs.getInt("count") + "</td>");
+					out.print("<td>" + rs.getInt("count") + "</td>");
 
-				out.print("</tr>");
+					out.print("</tr>");
 
+				}
+			} finally {
+				JdbcUtil.close(conn);
 			}
 		%>
 
